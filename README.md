@@ -1,0 +1,2 @@
+[![Build Status](https://travis-ci.org/kristerkari/babel-plugin-react-native-stylename-to-style.svg?branch=master)](https://travis-ci.org/kristerkari/babel-plugin-react-native-stylename-to-style)
+[![Build status](https://ci.appveyor.com/api/projects/status/1040mtj6qyu9vkg8/branch/master?svg=true)](https://ci.appveyor.com/project/kristerkari/babel-plugin-react-native-stylename-to-style/branch/master)
