@@ -97,7 +97,7 @@ const Foo = () =>  <View styleName=\\"wrapper\\"><Text>Foo</Text></View>
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-SyntaxError: /Users/kristerkari/Git/babel-plugin-react-native-stylename-to-style/__tests__/index.spec.js: Cannot use anonymous style name with more than one stylesheet import.
+Error: index.js: Cannot use anonymous style name with more than one stylesheet import.
 "
 `;
 
@@ -110,7 +110,7 @@ const Foo = () =>  <View styleName=\\"wrapper\\"><Text>Foo</Text></View>
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-SyntaxError: /Users/kristerkari/Git/babel-plugin-react-native-stylename-to-style/__tests__/index.spec.js: Cannot use anonymous style name with more than one stylesheet import.
+Error: index.js: Cannot use anonymous style name with more than one stylesheet import.
 "
 `;
 
@@ -121,7 +121,7 @@ const Foo = () =>  <View styleName=\\"wrapper\\"><Text>Foo</Text></View>
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-Error: /Users/kristerkari/Git/babel-plugin-react-native-stylename-to-style/__tests__/index.spec.js: You have not specified any extensions in the plugin options.
+Error: index.js: You have not specified any extensions in the plugin options.
 "
 `;
 

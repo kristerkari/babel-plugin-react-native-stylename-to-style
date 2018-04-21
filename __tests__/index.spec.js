@@ -10,7 +10,7 @@ pluginTester({
   },
   babelOptions: {
     babelrc: true,
-    filename: __filename
+    filename: "index.js"
   },
   tests: [
     {
@@ -108,7 +108,7 @@ pluginTester({
   pluginOptions: {},
   babelOptions: {
     babelrc: true,
-    filename: __filename
+    filename: "index.js"
   },
 
   tests: [
@@ -118,7 +118,7 @@ pluginTester({
         import './Button.css';
         const Foo = () =>  <View styleName="wrapper"><Text>Foo</Text></View>
       `,
-      error: "You have not specified any extensions in the plugin options."
+      error: true
     }
   ]
 });

@@ -39,7 +39,7 @@ module.exports = function(babel) {
         });
 
         if (anonymousImports.length > 1) {
-          throw path.buildCodeFrameError(
+          throw new Error(
             "Cannot use anonymous style name with more than one stylesheet import."
           );
         }
