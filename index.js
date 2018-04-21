@@ -13,6 +13,16 @@ module.exports = function(babel) {
           return;
         }
 
+        const anonymousImports = path.container.filter(
+          n => t.isImportDeclaration(n) && n.specifiers.length === 0
+        );
+
+        if (anonymousImports.length > 1) {
+          throw path.buildCodeFrameError(
+            "Cannot use anonymous style name with more than one stylesheet import."
+          );
+        }
+
         randomSpecifier = t.ImportDefaultSpecifier(
           path.scope.generateUidIdentifier()
         );

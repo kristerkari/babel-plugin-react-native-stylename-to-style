@@ -55,6 +55,27 @@ pluginTester({
         import './Button.css';
         const Foo = () =>  <View styleName="wrapper red" style={{ marginTop: 10 }}><Text>Foo</Text></View>
       `
+    },
+    {
+      title: "Should throw an error when multiple anonymous imports are used",
+      code: `
+        import './Button.css';
+        import './Text.css';
+        const Foo = () =>  <View styleName="wrapper"><Text>Foo</Text></View>
+      `,
+      error:
+        "Cannot use anonymous style name with more than one stylesheet import."
+    },
+    {
+      title: "Should throw an error when multiple anonymous imports are used",
+      code: `
+        import './Button.css';
+        import foo from './foo.js';
+        import './Text.css';
+        const Foo = () =>  <View styleName="wrapper"><Text>Foo</Text></View>
+      `,
+      error:
+        "Cannot use anonymous style name with more than one stylesheet import."
     }
   ]
 });
