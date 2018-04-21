@@ -1,5 +1,6 @@
 module.exports = function(babel) {
   var styleName = null;
+  var style = null;
   var randomSpecifier = null;
   var t = babel.types;
   return {
@@ -28,29 +29,41 @@ module.exports = function(babel) {
             .split(" ")
             .filter(v => v.trim() !== "");
 
-          if (classNames.length > 1) {
-            styleName.node.value = t.arrayExpression(
-              classNames.map(c =>
-                t.memberExpression(
-                  t.identifier(randomSpecifier.local.name),
-                  t.identifier(c)
-                )
-              )
-            );
-          } else {
-            styleName.node.value = t.memberExpression(
+          var expressions = classNames.map(c =>
+            t.memberExpression(
               t.identifier(randomSpecifier.local.name),
-              t.identifier(classNames[0])
-            );
-          }
+              t.identifier(c)
+            )
+          );
 
-          styleName.node.name.name = "style";
+          var hasStyleNameAndStyle =
+            styleName &&
+            style &&
+            styleName.parentPath.node === style.parentPath.node;
+
+          if (hasStyleNameAndStyle) {
+            style.node.value = t.arrayExpression(
+              expressions.concat([style.node.value.expression])
+            );
+            styleName.remove();
+          } else {
+            if (classNames.length > 1) {
+              styleName.node.value = t.arrayExpression(expressions);
+            } else {
+              styleName.node.value = expressions[0];
+            }
+            styleName.node.name.name = "style";
+          }
+          style = null;
+          styleName = null;
         }
       },
       JSXAttribute: function JSXAttribute(path, state) {
         var name = path.node.name.name;
         if (name === "styleName") {
           styleName = path;
+        } else if (name === "style") {
+          style = path;
         }
       }
     }

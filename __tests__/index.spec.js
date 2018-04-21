@@ -39,6 +39,22 @@ pluginTester({
         import './Button.css';
         const Foo = () =>  <View styleName="  wrapper  red  "><Text>Foo</Text></View>
       `
+    },
+    {
+      title:
+        "Should transform single styleName to styles object and merge with style tag",
+      code: `
+        import './Button.css';
+        const Foo = () =>  <View styleName="wrapper" style={{ marginTop: 10 }}><Text>Foo</Text></View>
+      `
+    },
+    {
+      title:
+        "Should transform multiple styleName classes to styles object and merge with style tag",
+      code: `
+        import './Button.css';
+        const Foo = () =>  <View styleName="wrapper red" style={{ marginTop: 10 }}><Text>Foo</Text></View>
+      `
     }
   ]
 });
