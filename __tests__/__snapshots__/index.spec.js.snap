@@ -29,6 +29,66 @@ var Foo = function Foo() {
 "
 `;
 
+exports[`babel-plugin-react-native-stylename-to-style Should NOT transform styleName if the import extension does not match the one in plugin options: Should NOT transform styleName if the import extension does not match the one in plugin options 1`] = `
+"
+import './Button.scss';
+const Foo = () =>  <View styleName=\\"wrapper\\"><Text>Foo</Text></View>
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+\\"use strict\\";
+
+require(\\"./Button.scss\\");
+
+var Foo = function Foo() {
+  return React.createElement(
+    View,
+    { styleName: \\"wrapper\\" },
+    React.createElement(
+      Text,
+      null,
+      \\"Foo\\"
+    )
+  );
+};
+"
+`;
+
+exports[`babel-plugin-react-native-stylename-to-style Should ignore anonymous imports with other extensions and transform single styleName to styles object: Should ignore anonymous imports with other extensions and transform single styleName to styles object 1`] = `
+"
+import './foo.js';
+import './Button.css';
+import './Button.scss';
+const Foo = () =>  <View styleName=\\"wrapper\\"><Text>Foo</Text></View>
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+'use strict';
+
+require('./foo.js');
+
+var _Button = require('./Button.css');
+
+var _Button2 = _interopRequireDefault(_Button);
+
+require('./Button.scss');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Foo = function Foo() {
+  return React.createElement(
+    View,
+    { style: _Button2.default.wrapper },
+    React.createElement(
+      Text,
+      null,
+      'Foo'
+    )
+  );
+};
+"
+`;
+
 exports[`babel-plugin-react-native-stylename-to-style Should throw an error when multiple anonymous imports are used: Should throw an error when multiple anonymous imports are used 1`] = `
 "
 import './Button.css';
@@ -51,6 +111,17 @@ const Foo = () =>  <View styleName=\\"wrapper\\"><Text>Foo</Text></View>
       ↓ ↓ ↓ ↓ ↓ ↓
 
 SyntaxError: /Users/kristerkari/Git/babel-plugin-react-native-stylename-to-style/__tests__/index.spec.js: Cannot use anonymous style name with more than one stylesheet import.
+"
+`;
+
+exports[`babel-plugin-react-native-stylename-to-style Should throw if no extensions defined in options: Should throw if no extensions defined in options 1`] = `
+"
+import './Button.css';
+const Foo = () =>  <View styleName=\\"wrapper\\"><Text>Foo</Text></View>
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+Error: /Users/kristerkari/Git/babel-plugin-react-native-stylename-to-style/__tests__/index.spec.js: You have not specified any extensions in the plugin options.
 "
 `;
 

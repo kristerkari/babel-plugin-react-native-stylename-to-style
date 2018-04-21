@@ -1,3 +1,9 @@
+var nodePath = require("path");
+
+function getExt(node) {
+  return nodePath.extname(node.source.value).replace(/^\./, "");
+}
+
 module.exports = function(babel) {
   var styleName = null;
   var style = null;
@@ -6,6 +12,17 @@ module.exports = function(babel) {
   return {
     visitor: {
       ImportDeclaration: function importResolver(path, state) {
+        var extensions =
+          state.opts != null &&
+          Array.isArray(state.opts.extensions) &&
+          state.opts.extensions;
+
+        if (!extensions) {
+          throw new Error(
+            "You have not specified any extensions in the plugin options."
+          );
+        }
+
         var node = path.node;
         var specifier = node.specifiers[0];
 
@@ -13,14 +30,22 @@ module.exports = function(babel) {
           return;
         }
 
-        const anonymousImports = path.container.filter(
-          n => t.isImportDeclaration(n) && n.specifiers.length === 0
-        );
+        var anonymousImports = path.container.filter(n => {
+          return (
+            t.isImportDeclaration(n) &&
+            n.specifiers.length === 0 &&
+            extensions.indexOf(getExt(n)) > -1
+          );
+        });
 
         if (anonymousImports.length > 1) {
           throw path.buildCodeFrameError(
             "Cannot use anonymous style name with more than one stylesheet import."
           );
+        }
+
+        if (extensions.indexOf(getExt(node)) === -1) {
+          return;
         }
 
         randomSpecifier = t.ImportDefaultSpecifier(
@@ -31,7 +56,11 @@ module.exports = function(babel) {
       },
       JSXOpeningElement: {
         exit(path, state) {
-          if (styleName === null || !t.isStringLiteral(styleName.node.value)) {
+          if (
+            styleName === null ||
+            randomSpecifier === null ||
+            !t.isStringLiteral(styleName.node.value)
+          ) {
             return;
           }
 
@@ -66,6 +95,7 @@ module.exports = function(babel) {
           }
           style = null;
           styleName = null;
+          randomSpecifier = null;
         }
       },
       JSXAttribute: function JSXAttribute(path, state) {
