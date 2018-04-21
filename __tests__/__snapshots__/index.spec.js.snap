@@ -114,6 +114,18 @@ Error: index.js: Cannot use anonymous style name with more than one stylesheet i
 "
 `;
 
+exports[`babel-plugin-react-native-stylename-to-style Should throw because of multiple valid imports: Should throw because of multiple valid imports 1`] = `
+"
+import './Button.scss';
+import './Button.less';
+const Foo = () =>  <View styleName=\\"wrapper\\"><Text>Foo</Text></View>
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+Error: index.js: Cannot use anonymous style name with more than one stylesheet import.
+"
+`;
+
 exports[`babel-plugin-react-native-stylename-to-style Should throw if no extensions defined in options: Should throw if no extensions defined in options 1`] = `
 "
 import './Button.css';
@@ -122,6 +134,70 @@ const Foo = () =>  <View styleName=\\"wrapper\\"><Text>Foo</Text></View>
       ↓ ↓ ↓ ↓ ↓ ↓
 
 Error: index.js: You have not specified any extensions in the plugin options.
+"
+`;
+
+exports[`babel-plugin-react-native-stylename-to-style Should transform Less import: Should transform Less import 1`] = `
+"
+import './Button.css';
+import './Button.less';
+const Foo = () =>  <View styleName=\\"wrapper\\"><Text>Foo</Text></View>
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+'use strict';
+
+require('./Button.css');
+
+var _Button = require('./Button.less');
+
+var _Button2 = _interopRequireDefault(_Button);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Foo = function Foo() {
+  return React.createElement(
+    View,
+    { style: _Button2.default.wrapper },
+    React.createElement(
+      Text,
+      null,
+      'Foo'
+    )
+  );
+};
+"
+`;
+
+exports[`babel-plugin-react-native-stylename-to-style Should transform SCSS import: Should transform SCSS import 1`] = `
+"
+import './Button.css';
+import './Button.scss';
+const Foo = () =>  <View styleName=\\"wrapper\\"><Text>Foo</Text></View>
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+'use strict';
+
+require('./Button.css');
+
+var _Button = require('./Button.scss');
+
+var _Button2 = _interopRequireDefault(_Button);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Foo = function Foo() {
+  return React.createElement(
+    View,
+    { style: _Button2.default.wrapper },
+    React.createElement(
+      Text,
+      null,
+      'Foo'
+    )
+  );
+};
 "
 `;
 

@@ -105,6 +105,46 @@ pluginTester({
   plugin,
   pluginName: "babel-plugin-react-native-stylename-to-style",
   snapshot: true,
+  pluginOptions: {
+    extensions: ["scss", "less"]
+  },
+  babelOptions: {
+    babelrc: true,
+    filename: "index.js"
+  },
+  tests: [
+    {
+      title: "Should transform SCSS import",
+      code: `
+        import './Button.css';
+        import './Button.scss';
+        const Foo = () =>  <View styleName="wrapper"><Text>Foo</Text></View>
+      `
+    },
+    {
+      title: "Should transform Less import",
+      code: `
+        import './Button.css';
+        import './Button.less';
+        const Foo = () =>  <View styleName="wrapper"><Text>Foo</Text></View>
+      `
+    },
+    {
+      title: "Should throw because of multiple valid imports",
+      code: `
+        import './Button.scss';
+        import './Button.less';
+        const Foo = () =>  <View styleName="wrapper"><Text>Foo</Text></View>
+      `,
+      error: true
+    }
+  ]
+});
+
+pluginTester({
+  plugin,
+  pluginName: "babel-plugin-react-native-stylename-to-style",
+  snapshot: true,
   pluginOptions: {},
   babelOptions: {
     babelrc: true,
