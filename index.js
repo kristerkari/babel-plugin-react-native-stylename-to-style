@@ -24,10 +24,26 @@ module.exports = function(babel) {
             return;
           }
 
-          styleName.node.value = t.memberExpression(
-            t.identifier(randomSpecifier.local.name),
-            t.identifier(styleName.node.value.value)
-          );
+          var classNames = styleName.node.value.value
+            .split(" ")
+            .filter(v => v.trim() !== "");
+
+          if (classNames.length > 1) {
+            styleName.node.value = t.arrayExpression(
+              classNames.map(c =>
+                t.memberExpression(
+                  t.identifier(randomSpecifier.local.name),
+                  t.identifier(c)
+                )
+              )
+            );
+          } else {
+            styleName.node.value = t.memberExpression(
+              t.identifier(randomSpecifier.local.name),
+              t.identifier(classNames[0])
+            );
+          }
+
           styleName.node.name.name = "style";
         }
       },

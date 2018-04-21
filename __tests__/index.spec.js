@@ -24,6 +24,21 @@ pluginTester({
         import styles from './Button.css';
         const Foo = () =>  <View style={styles.wrapper}><Text>Foo</Text></View>
       `
+    },
+    {
+      title: "Should transform multiple styleName classes to styles object",
+      code: `
+        import './Button.css';
+        const Foo = () =>  <View styleName="wrapper red"><Text>Foo</Text></View>
+      `
+    },
+    {
+      title:
+        "Should transform multiple styleName classes with whitespace to styles object",
+      code: `
+        import './Button.css';
+        const Foo = () =>  <View styleName="  wrapper  red  "><Text>Foo</Text></View>
+      `
     }
   ]
 });

@@ -29,6 +29,64 @@ var Foo = function Foo() {
 "
 `;
 
+exports[`babel-plugin-react-native-stylename-to-style Should transform multiple styleName classes to styles object: Should transform multiple styleName classes to styles object 1`] = `
+"
+import './Button.css';
+const Foo = () =>  <View styleName=\\"wrapper red\\"><Text>Foo</Text></View>
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+\\"use strict\\";
+
+var _Button = require(\\"./Button.css\\");
+
+var _Button2 = _interopRequireDefault(_Button);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Foo = function Foo() {
+  return React.createElement(
+    View,
+    { style: [_Button2.default.wrapper, _Button2.default.red] },
+    React.createElement(
+      Text,
+      null,
+      \\"Foo\\"
+    )
+  );
+};
+"
+`;
+
+exports[`babel-plugin-react-native-stylename-to-style Should transform multiple styleName classes with whitespace to styles object: Should transform multiple styleName classes with whitespace to styles object 1`] = `
+"
+import './Button.css';
+const Foo = () =>  <View styleName=\\"  wrapper  red  \\"><Text>Foo</Text></View>
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+\\"use strict\\";
+
+var _Button = require(\\"./Button.css\\");
+
+var _Button2 = _interopRequireDefault(_Button);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Foo = function Foo() {
+  return React.createElement(
+    View,
+    { style: [_Button2.default.wrapper, _Button2.default.red] },
+    React.createElement(
+      Text,
+      null,
+      \\"Foo\\"
+    )
+  );
+};
+"
+`;
+
 exports[`babel-plugin-react-native-stylename-to-style Should transform single styleName to styles object: Should transform single styleName to styles object 1`] = `
 "
 import './Button.css';
