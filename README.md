@@ -33,7 +33,7 @@ You must give one or more file extensions inside an array in the plugin options.
   ],
   "plugins": [
     ["react-native-stylename-to-style", {
-      extensions: ["css"]
+      "extensions": ["css"]
     }]
   ]
 }
