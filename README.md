@@ -71,7 +71,7 @@ import "./Button.css";
 ```jsx
 import Button from "./Button.css";
 
-<View style={[Button.wrapper Button.red]}>
+<View style={[Button.wrapper, Button.red]}>
   <Text>Foo</Text>
 </View>;
 ```
