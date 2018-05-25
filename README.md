@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/kristerkari/babel-plugin-react-native-stylename-to-style.svg?branch=master)](https://travis-ci.org/kristerkari/babel-plugin-react-native-stylename-to-style)
 [![Build status](https://ci.appveyor.com/api/projects/status/1040mtj6qyu9vkg8/branch/master?svg=true)](https://ci.appveyor.com/project/kristerkari/babel-plugin-react-native-stylename-to-style/branch/master)
 [![Coverage Status](https://coveralls.io/repos/github/kristerkari/babel-plugin-react-native-stylename-to-style/badge.svg?branch=master)](https://coveralls.io/github/kristerkari/babel-plugin-react-native-stylename-to-style?branch=master)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://egghead.io/courses/how-to-contribute-to-an-open-source-project-on-github)
 
 Transform JSX `styleName` property to `style` property in react-native. The `styleName` syntax is the same one that is used in [babel-plugin-react-css-modules](https://github.com/gajus/babel-plugin-react-css-modules#conventions).
 
