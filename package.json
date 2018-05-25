@@ -5,7 +5,9 @@
   "keywords": [
     "babel",
     "babel-plugin",
-    "react-native"
+    "react-native",
+    "stylename",
+    "style"
   ],
   "main": "index.js",
   "scripts": {
