@@ -23,13 +23,17 @@ npm install --save-dev babel-plugin-react-native-stylename-to-style
 
 ### Step 2: Configure `.babelrc`
 
+You must give one or more file extensions inside an array in the plugin options.
+
 ```
 {
   "presets": [
     "react-native"
   ],
   "plugins": [
-    "react-native-stylename-to-style"
+    ["react-native-stylename-to-style", {
+      extensions: ["css"]
+    }]
   ]
 }
 ```
