@@ -97,6 +97,54 @@ pluginTester({
         import './Button.scss';
         const Foo = () =>  <View styleName="wrapper"><Text>Foo</Text></View>
       `
+    },
+    {
+      title: "Should support named import and a single class",
+      code: `
+        import foo from './Button.css';
+        const Foo = () => <View styleName="foo.wrapper"><Text>Foo</Text></View>
+      `
+    },
+    {
+      title: "Should support named import and multiple classes",
+      code: `
+        import foo from './Button.css';
+        const Foo = () => <View styleName="foo.wrapper foo.red"><Text>Foo</Text></View>
+      `
+    },
+    {
+      title: "Should support multiple named imports",
+      code: `
+        import foo from './Button.css';
+        import bar from './Grid.css';
+        const Foo = () => <View styleName="foo.wrapper bar.column"><Text>Foo</Text></View>
+      `
+    },
+    {
+      title: "Should support multiple named imports with the same classname",
+      code: `
+        import foo from './Button.css';
+        import bar from './Grid.css';
+        import baz from '../Text.scss';
+        const Foo = () => <View styleName="baz.wrapper foo.wrapper bar.wrapper"><Text>Foo</Text></View>
+      `
+    },
+    {
+      title: "Should support multiple named imports and merge with style tag",
+      code: `
+        import foo from './Button.css';
+        import bar from './Grid.css';
+        const Foo = () => <View styleName="foo.wrapper bar.column" style={{ height: 1 }}><Text>Foo</Text></View>
+      `
+    },
+    {
+      title:
+        "Should support multiple named imports and ignore a class without object and property",
+      code: `
+        import foo from './Button.css';
+        import bar from './Grid.css';
+        const Foo = () => <View styleName="foo.wrapper bar.column invalid"><Text>Foo</Text></View>
+      `
     }
   ]
 });

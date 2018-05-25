@@ -89,6 +89,205 @@ var Foo = function Foo() {
 "
 `;
 
+exports[`babel-plugin-react-native-stylename-to-style Should support multiple named imports and ignore a class without object and property: Should support multiple named imports and ignore a class without object and property 1`] = `
+"
+import foo from './Button.css';
+import bar from './Grid.css';
+const Foo = () => <View styleName=\\"foo.wrapper bar.column invalid\\"><Text>Foo</Text></View>
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+'use strict';
+
+var _Button = require('./Button.css');
+
+var _Button2 = _interopRequireDefault(_Button);
+
+var _Grid = require('./Grid.css');
+
+var _Grid2 = _interopRequireDefault(_Grid);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Foo = function Foo() {
+  return React.createElement(
+    View,
+    { style: [_Button2.default.wrapper, _Grid2.default.column] },
+    React.createElement(
+      Text,
+      null,
+      'Foo'
+    )
+  );
+};
+"
+`;
+
+exports[`babel-plugin-react-native-stylename-to-style Should support multiple named imports and merge with style tag: Should support multiple named imports and merge with style tag 1`] = `
+"
+import foo from './Button.css';
+import bar from './Grid.css';
+const Foo = () => <View styleName=\\"foo.wrapper bar.column\\" style={{ height: 1 }}><Text>Foo</Text></View>
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+'use strict';
+
+var _Button = require('./Button.css');
+
+var _Button2 = _interopRequireDefault(_Button);
+
+var _Grid = require('./Grid.css');
+
+var _Grid2 = _interopRequireDefault(_Grid);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Foo = function Foo() {
+  return React.createElement(
+    View,
+    { style: [_Button2.default.wrapper, _Grid2.default.column, { height: 1 }] },
+    React.createElement(
+      Text,
+      null,
+      'Foo'
+    )
+  );
+};
+"
+`;
+
+exports[`babel-plugin-react-native-stylename-to-style Should support multiple named imports with the same classname: Should support multiple named imports with the same classname 1`] = `
+"
+import foo from './Button.css';
+import bar from './Grid.css';
+import baz from '../Text.scss';
+const Foo = () => <View styleName=\\"baz.wrapper foo.wrapper bar.wrapper\\"><Text>Foo</Text></View>
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+'use strict';
+
+var _Button = require('./Button.css');
+
+var _Button2 = _interopRequireDefault(_Button);
+
+var _Grid = require('./Grid.css');
+
+var _Grid2 = _interopRequireDefault(_Grid);
+
+var _Text = require('../Text.scss');
+
+var _Text2 = _interopRequireDefault(_Text);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Foo = function Foo() {
+  return React.createElement(
+    View,
+    { style: [_Text2.default.wrapper, _Button2.default.wrapper, _Grid2.default.wrapper] },
+    React.createElement(
+      Text,
+      null,
+      'Foo'
+    )
+  );
+};
+"
+`;
+
+exports[`babel-plugin-react-native-stylename-to-style Should support multiple named imports: Should support multiple named imports 1`] = `
+"
+import foo from './Button.css';
+import bar from './Grid.css';
+const Foo = () => <View styleName=\\"foo.wrapper bar.column\\"><Text>Foo</Text></View>
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+'use strict';
+
+var _Button = require('./Button.css');
+
+var _Button2 = _interopRequireDefault(_Button);
+
+var _Grid = require('./Grid.css');
+
+var _Grid2 = _interopRequireDefault(_Grid);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Foo = function Foo() {
+  return React.createElement(
+    View,
+    { style: [_Button2.default.wrapper, _Grid2.default.column] },
+    React.createElement(
+      Text,
+      null,
+      'Foo'
+    )
+  );
+};
+"
+`;
+
+exports[`babel-plugin-react-native-stylename-to-style Should support named import and a single class: Should support named import and a single class 1`] = `
+"
+import foo from './Button.css';
+const Foo = () => <View styleName=\\"foo.wrapper\\"><Text>Foo</Text></View>
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+\\"use strict\\";
+
+var _Button = require(\\"./Button.css\\");
+
+var _Button2 = _interopRequireDefault(_Button);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Foo = function Foo() {
+  return React.createElement(
+    View,
+    { style: _Button2.default.wrapper },
+    React.createElement(
+      Text,
+      null,
+      \\"Foo\\"
+    )
+  );
+};
+"
+`;
+
+exports[`babel-plugin-react-native-stylename-to-style Should support named import and multiple classes: Should support named import and multiple classes 1`] = `
+"
+import foo from './Button.css';
+const Foo = () => <View styleName=\\"foo.wrapper foo.red\\"><Text>Foo</Text></View>
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+\\"use strict\\";
+
+var _Button = require(\\"./Button.css\\");
+
+var _Button2 = _interopRequireDefault(_Button);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Foo = function Foo() {
+  return React.createElement(
+    View,
+    { style: [_Button2.default.wrapper, _Button2.default.red] },
+    React.createElement(
+      Text,
+      null,
+      \\"Foo\\"
+    )
+  );
+};
+"
+`;
+
 exports[`babel-plugin-react-native-stylename-to-style Should throw an error when multiple anonymous imports are used: Should throw an error when multiple anonymous imports are used 1`] = `
 "
 import './Button.css';

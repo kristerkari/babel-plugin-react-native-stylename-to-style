@@ -7,6 +7,7 @@ function getExt(node) {
 module.exports = function(babel) {
   var styleName = null;
   var style = null;
+  var specifier = null;
   var randomSpecifier = null;
   var t = babel.types;
   return {
@@ -24,11 +25,6 @@ module.exports = function(babel) {
         }
 
         var node = path.node;
-        var specifier = node.specifiers[0];
-
-        if (specifier) {
-          return;
-        }
 
         var anonymousImports = path.container.filter(n => {
           return (
@@ -48,11 +44,13 @@ module.exports = function(babel) {
           return;
         }
 
+        specifier = node.specifiers[0];
+
         randomSpecifier = t.ImportDefaultSpecifier(
           path.scope.generateUidIdentifier()
         );
 
-        node.specifiers = [randomSpecifier];
+        node.specifiers = [specifier || randomSpecifier];
       },
       JSXOpeningElement: {
         exit(path, state) {
@@ -68,12 +66,21 @@ module.exports = function(babel) {
             .split(" ")
             .filter(v => v.trim() !== "");
 
-          var expressions = classNames.map(c =>
-            t.memberExpression(
-              t.identifier(randomSpecifier.local.name),
-              t.identifier(c)
-            )
-          );
+          var expressions = classNames
+            .map(c => {
+              var parts = c.split(".");
+              var hasParts = parts[0] !== undefined && parts[1] !== undefined;
+
+              if (specifier && !hasParts) {
+                return;
+              }
+
+              var obj = hasParts ? parts[0] : randomSpecifier.local.name;
+              var prop = hasParts ? parts[1] : c;
+
+              return t.memberExpression(t.identifier(obj), t.identifier(prop));
+            })
+            .filter(e => e !== undefined);
 
           var hasStyleNameAndStyle =
             styleName &&
@@ -95,6 +102,7 @@ module.exports = function(babel) {
           }
           style = null;
           styleName = null;
+          specifier = null;
           randomSpecifier = null;
         }
       },
