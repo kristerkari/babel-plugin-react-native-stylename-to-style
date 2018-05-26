@@ -104,6 +104,12 @@ pluginTester({
       `
     },
     {
+      title: "Should NOT transform styleName if there is no import",
+      code: `
+        const Foo = () =>  <View styleName="wrapper"><Text>Foo</Text></View>
+      `
+    },
+    {
       title:
         "Should ignore anonymous imports with other extensions and transform single styleName to styles object",
       code: `

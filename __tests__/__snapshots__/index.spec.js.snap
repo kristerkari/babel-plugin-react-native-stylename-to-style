@@ -54,6 +54,28 @@ var Foo = function Foo() {
 "
 `;
 
+exports[`babel-plugin-react-native-stylename-to-style Should NOT transform styleName if there is no import: Should NOT transform styleName if there is no import 1`] = `
+"
+const Foo = () =>  <View styleName=\\"wrapper\\"><Text>Foo</Text></View>
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+\\"use strict\\";
+
+var Foo = function Foo() {
+  return React.createElement(
+    View,
+    { styleName: \\"wrapper\\" },
+    React.createElement(
+      Text,
+      null,
+      \\"Foo\\"
+    )
+  );
+};
+"
+`;
+
 exports[`babel-plugin-react-native-stylename-to-style Should ignore anonymous imports with other extensions and transform single styleName to styles object: Should ignore anonymous imports with other extensions and transform single styleName to styles object 1`] = `
 "
 import './foo.js';
