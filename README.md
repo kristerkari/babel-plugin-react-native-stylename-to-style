@@ -70,7 +70,7 @@ import Button from "./Button.css";
 ```jsx
 import "./Button.css";
 
-<View styleName="wrapper red">
+<View styleName="wrapper red-background">
   <Text>Foo</Text>
 </View>;
 ```
@@ -78,7 +78,7 @@ import "./Button.css";
 ```jsx
 import Button from "./Button.css";
 
-<View style={[Button.wrapper, Button.red]}>
+<View style={[Button.wrapper, Button["red-background"]]}>
   <Text>Foo</Text>
 </View>;
 ```
