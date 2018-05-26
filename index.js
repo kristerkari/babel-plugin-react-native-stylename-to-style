@@ -11,6 +11,9 @@ module.exports = function(babel) {
   var randomSpecifier = null;
   var t = babel.types;
   return {
+    post() {
+      randomSpecifier = null;
+    },
     visitor: {
       ImportDeclaration: function importResolver(path, state) {
         var extensions =
@@ -103,7 +106,6 @@ module.exports = function(babel) {
           style = null;
           styleName = null;
           specifier = null;
-          randomSpecifier = null;
         }
       },
       JSXAttribute: function JSXAttribute(path, state) {

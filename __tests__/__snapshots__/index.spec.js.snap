@@ -487,6 +487,39 @@ var Foo = function Foo() {
 "
 `;
 
+exports[`babel-plugin-react-native-stylename-to-style Should transform nested single styleNames to styles object: Should transform nested single styleNames to styles object 1`] = `
+"
+import './Button.css';
+const Foo = () =>  <View style={{ width: \\"100%\\" }}><View styleName=\\"wrapper\\"><Text styleName=\\"red\\">Foo</Text></View></View>
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+\\"use strict\\";
+
+var _Button = require(\\"./Button.css\\");
+
+var _Button2 = _interopRequireDefault(_Button);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Foo = function Foo() {
+  return React.createElement(
+    View,
+    { style: { width: \\"100%\\" } },
+    React.createElement(
+      View,
+      { style: _Button2.default.wrapper },
+      React.createElement(
+        Text,
+        { style: _Button2.default.red },
+        \\"Foo\\"
+      )
+    )
+  );
+};
+"
+`;
+
 exports[`babel-plugin-react-native-stylename-to-style Should transform single styleName to styles object and merge with style tag: Should transform single styleName to styles object and merge with style tag 1`] = `
 "
 import './Button.css';
@@ -510,6 +543,48 @@ var Foo = function Foo() {
       Text,
       null,
       \\"Foo\\"
+    )
+  );
+};
+"
+`;
+
+exports[`babel-plugin-react-native-stylename-to-style Should transform single styleName to styles object with multiple elements: Should transform single styleName to styles object with multiple elements 1`] = `
+"
+import './Button.css';
+const Foo = () =>  <View><View styleName=\\"wrapper\\"><Text>Foo</Text></View><View styleName=\\"dark\\"><Text>Foo</Text></View></View>
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+\\"use strict\\";
+
+var _Button = require(\\"./Button.css\\");
+
+var _Button2 = _interopRequireDefault(_Button);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Foo = function Foo() {
+  return React.createElement(
+    View,
+    null,
+    React.createElement(
+      View,
+      { style: _Button2.default.wrapper },
+      React.createElement(
+        Text,
+        null,
+        \\"Foo\\"
+      )
+    ),
+    React.createElement(
+      View,
+      { style: _Button2.default.dark },
+      React.createElement(
+        Text,
+        null,
+        \\"Foo\\"
+      )
     )
   );
 };
