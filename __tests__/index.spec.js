@@ -29,6 +29,21 @@ pluginTester({
       `
     },
     {
+      title: "Should transform single styleName with hyphen to styles object",
+      code: `
+        import './Button.css';
+        const Foo = () =>  <View styleName="main-wrapper"><Text>Foo</Text></View>
+      `
+    },
+    {
+      title:
+        "Should transform multiple styleNames with hyphen to styles object",
+      code: `
+        import './Button.css';
+        const Foo = () =>  <View styleName="main-wrapper red-bg something-else"><Text>Foo</Text></View>
+      `
+    },
+    {
       title: "Should transform nested single styleNames to styles object",
       code: `
         import './Button.css';
@@ -134,11 +149,33 @@ pluginTester({
       `
     },
     {
+      title: "Should support named import and a single class with hyphen",
+      code: `
+        import foo from './Button.css';
+        const Foo = () => <View styleName="foo.main-wrapper"><Text>Foo</Text></View>
+      `
+    },
+    {
+      title: "Should support named import and multiple classes with hyphen",
+      code: `
+        import foo from './Button.css';
+        const Foo = () => <View styleName="foo.main-wrapper foo.red-bg"><Text>Foo</Text></View>
+      `
+    },
+    {
       title: "Should support multiple named imports",
       code: `
         import foo from './Button.css';
         import bar from './Grid.css';
         const Foo = () => <View styleName="foo.wrapper bar.column"><Text>Foo</Text></View>
+      `
+    },
+    {
+      title: "Should support multiple named imports and hyphens",
+      code: `
+        import foo from './Button.css';
+        import bar from './Grid.css';
+        const Foo = () => <View styleName="foo.main-wrapper bar.left-column"><Text>Foo</Text></View>
       `
     },
     {

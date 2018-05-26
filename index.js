@@ -80,8 +80,13 @@ module.exports = function(babel) {
 
               var obj = hasParts ? parts[0] : randomSpecifier.local.name;
               var prop = hasParts ? parts[1] : c;
+              var hasHyphen = /\w+-\w+/.test(prop) === true;
 
-              return t.memberExpression(t.identifier(obj), t.identifier(prop));
+              return t.memberExpression(
+                t.identifier(obj),
+                hasHyphen ? t.stringLiteral(prop) : t.identifier(prop),
+                hasHyphen
+              );
             })
             .filter(e => e !== undefined);
 
