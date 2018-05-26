@@ -75,6 +75,8 @@ import "./Button.css";
 </View>;
 ```
 
+↓ ↓ ↓ ↓ ↓ ↓
+
 ```jsx
 import Button from "./Button.css";
 
