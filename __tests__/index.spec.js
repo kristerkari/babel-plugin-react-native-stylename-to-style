@@ -29,6 +29,21 @@ pluginTester({
       `
     },
     {
+      title: "Should transform nested single styleNames to styles object",
+      code: `
+        import './Button.css';
+        const Foo = () =>  <View style={{ width: "100%" }}><View styleName="wrapper"><Text styleName="red">Foo</Text></View></View>
+      `
+    },
+    {
+      title:
+        "Should transform single styleName to styles object with multiple elements",
+      code: `
+        import './Button.css';
+        const Foo = () =>  <View><View styleName="wrapper"><Text>Foo</Text></View><View styleName="dark"><Text>Foo</Text></View></View>
+      `
+    },
+    {
       title: "Should transform multiple styleName classes to styles object",
       code: `
         import './Button.css';
