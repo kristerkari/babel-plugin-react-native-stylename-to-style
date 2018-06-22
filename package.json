@@ -95,5 +95,8 @@
         "statements": 75
       }
     }
+  },
+  "dependencies": {
+    "react-native-dynamic-style-processor": "^0.10.0"
   }
 }

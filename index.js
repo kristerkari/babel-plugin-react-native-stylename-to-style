@@ -10,6 +10,18 @@ module.exports = function(babel) {
   var specifier = null;
   var randomSpecifier = null;
   var t = babel.types;
+
+  function generateRequire(expression) {
+    var require = t.callExpression(t.identifier("require"), [
+      t.stringLiteral("react-native-dynamic-style-processor")
+    ]);
+    expression.object = t.callExpression(
+      t.memberExpression(require, t.identifier("process")),
+      [expression.object]
+    );
+    return expression;
+  }
+
   return {
     post() {
       randomSpecifier = null;
@@ -82,11 +94,12 @@ module.exports = function(babel) {
               var prop = hasParts ? parts[1] : c;
               var hasHyphen = /\w+-\w+/.test(prop) === true;
 
-              return t.memberExpression(
+              var memberExpression = t.memberExpression(
                 t.identifier(obj),
                 hasHyphen ? t.stringLiteral(prop) : t.identifier(prop),
                 hasHyphen
               );
+              return generateRequire(memberExpression);
             })
             .filter(e => e !== undefined);
 
