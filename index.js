@@ -22,7 +22,7 @@ module.exports = function(babel) {
     return expression;
   }
 
-  function getStylesFromClassNames (classNames) {
+  function getStylesFromClassNames(classNames) {
     return classNames
       .map(c => {
         var parts = c.split(".");
@@ -67,7 +67,7 @@ module.exports = function(babel) {
   //       import foo from './Button.css'
   //       let x = 'wrapper' // NOT 'foo.wrapper'
   //       <View styleName={x} />
-  function getStyleFromExpression (expression) {
+  function getStyleFromExpression(expression) {
     var obj = (specifier || randomSpecifier).local.name;
     var expressionResult = t.logicalExpression("||", expression, t.stringLiteral(""));
     var split = t.callExpression(
