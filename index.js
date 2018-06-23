@@ -46,9 +46,20 @@ module.exports = function(babel) {
       .filter(e => e !== undefined);
   }
 
-  // Supports dynamic styleName.
+  // Support dynamic styleName
+  // TODO: Add support for multiple named imports
+  // TODO: Move into a standalone require'able function instead of doing the inline invocation
+  // Generates the following:
+  //   styleName={x}
+  //   | | |
+  //   V V V
+  //
+  //   styleName={
+  //     (x || '').split(' ').filter(Boolean).map(function(name) {
+  //       return require('react-native-dynamic-style-processor').process(_Button2.default)[name]
+  //     }
+  //   }
   // The current drawbacks are:
-  //   - expression must calculate into a single className
   //   - can be used when there is only one style import
   //   - even when the single style import is named, that name should not be
   //     present in expression calculation.
@@ -58,12 +69,33 @@ module.exports = function(babel) {
   //       <View styleName={x} />
   function getStyleFromExpression (expression) {
     var obj = (specifier || randomSpecifier).local.name;
-    var memberExpression = t.memberExpression(
+    var expressionResult = t.logicalExpression("||", expression, t.stringLiteral(""));
+    var split = t.callExpression(
+      t.memberExpression(expressionResult, t.identifier("split")),
+      [t.stringLiteral(" ")]
+    );
+    var filter = t.callExpression(
+      t.memberExpression(split, t.identifier("filter")),
+      [t.identifier('Boolean')]
+    );
+    var nameIdentifier = t.identifier('name');
+    var styleMemberExpression = t.memberExpression(
       t.identifier(obj),
-      expression,
+      nameIdentifier,
       true
-    )
-    return generateRequire(memberExpression)
+    );
+    var aRequire = generateRequire(styleMemberExpression);
+    var map = t.callExpression(
+      t.memberExpression(filter, t.identifier("map")),
+      [t.functionExpression(
+        null,
+        [nameIdentifier],
+        t.blockStatement([
+          t.returnStatement(aRequire)
+        ])
+      )]
+    );
+    return map;
   }
 
   return {
@@ -128,9 +160,9 @@ module.exports = function(babel) {
             var classNames = styleName.node.value.value
               .split(" ")
               .filter(v => v.trim() !== "");
-            expressions = getStylesFromClassNames(classNames)
+            expressions = getStylesFromClassNames(classNames);
           } else if (t.isJSXExpressionContainer(styleName.node.value)) {
-            expressions = [getStyleFromExpression(styleName.node.value.expression)]
+            expressions = [getStyleFromExpression(styleName.node.value.expression)];
           }
 
           var hasStyleNameAndStyle =

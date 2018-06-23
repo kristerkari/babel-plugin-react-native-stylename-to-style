@@ -131,7 +131,9 @@ var x = 'wrapper';
 var Foo = function Foo() {
   return React.createElement(
     View,
-    { style: [require('react-native-dynamic-style-processor').process(_Button2.default)[x], { height: 1 }] },
+    { style: [(x || '').split(' ').filter(Boolean).map(function (name) {
+        return require('react-native-dynamic-style-processor').process(_Button2.default)[name];
+      }), { height: 1 }] },
     React.createElement(
       Text,
       null,
@@ -162,7 +164,9 @@ var x = 'wrapper';
 var Foo = function Foo() {
   return React.createElement(
     View,
-    { style: require('react-native-dynamic-style-processor').process(_Button2.default)[x] },
+    { style: (x || '').split(' ').filter(Boolean).map(function (name) {
+        return require('react-native-dynamic-style-processor').process(_Button2.default)[name];
+      }) },
     React.createElement(
       Text,
       null,
@@ -195,7 +199,9 @@ var condition = true;
 var Foo = function Foo() {
   return React.createElement(
     View,
-    { style: require('react-native-dynamic-style-processor').process(_Button2.default)[condition ? x : 'bar'] },
+    { style: ((condition ? x : 'bar') || '').split(' ').filter(Boolean).map(function (name) {
+        return require('react-native-dynamic-style-processor').process(_Button2.default)[name];
+      }) },
     React.createElement(
       Text,
       null,
@@ -226,7 +232,9 @@ var x = 'wrapper';
 var Foo = function Foo() {
   return React.createElement(
     View,
-    { style: require('react-native-dynamic-style-processor').process(_Button2.default)[x] },
+    { style: (x || '').split(' ').filter(Boolean).map(function (name) {
+        return require('react-native-dynamic-style-processor').process(_Button2.default)[name];
+      }) },
     React.createElement(
       Text,
       null,
