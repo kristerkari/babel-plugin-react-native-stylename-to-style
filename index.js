@@ -22,6 +22,82 @@ module.exports = function(babel) {
     return expression;
   }
 
+  function getStylesFromClassNames(classNames) {
+    return classNames
+      .map(c => {
+        var parts = c.split(".");
+        var hasParts = parts[0] !== undefined && parts[1] !== undefined;
+
+        if (specifier && !hasParts) {
+          return;
+        }
+
+        var obj = hasParts ? parts[0] : randomSpecifier.local.name;
+        var prop = hasParts ? parts[1] : c;
+        var hasHyphen = /\w+-\w+/.test(prop) === true;
+
+        var memberExpression = t.memberExpression(
+          t.identifier(obj),
+          hasHyphen ? t.stringLiteral(prop) : t.identifier(prop),
+          hasHyphen
+        );
+        return generateRequire(memberExpression);
+      })
+      .filter(e => e !== undefined);
+  }
+
+  // Support dynamic styleName
+  // TODO: Add support for multiple named imports
+  // TODO: Move into a standalone require'able function instead of doing the inline invocation
+  // Generates the following:
+  //   styleName={x}
+  //   | | |
+  //   V V V
+  //
+  //   styleName={
+  //     (x || '').split(' ').filter(Boolean).map(function(name) {
+  //       return require('react-native-dynamic-style-processor').process(_Button2.default)[name]
+  //     }
+  //   }
+  // The current drawbacks are:
+  //   - can be used when there is only one style import
+  //   - even when the single style import is named, that name should not be
+  //     present in expression calculation.
+  //     Example:
+  //       import foo from './Button.css'
+  //       let x = 'wrapper' // NOT 'foo.wrapper'
+  //       <View styleName={x} />
+  function getStyleFromExpression(expression) {
+    var obj = (specifier || randomSpecifier).local.name;
+    var expressionResult = t.logicalExpression("||", expression, t.stringLiteral(""));
+    var split = t.callExpression(
+      t.memberExpression(expressionResult, t.identifier("split")),
+      [t.stringLiteral(" ")]
+    );
+    var filter = t.callExpression(
+      t.memberExpression(split, t.identifier("filter")),
+      [t.identifier('Boolean')]
+    );
+    var nameIdentifier = t.identifier('name');
+    var styleMemberExpression = t.memberExpression(
+      t.identifier(obj),
+      nameIdentifier,
+      true
+    );
+    var aRequire = generateRequire(styleMemberExpression);
+    var map = t.callExpression(
+      t.memberExpression(filter, t.identifier("map")),
+      [t.functionExpression(
+        null,
+        [nameIdentifier],
+        t.blockStatement([
+          t.returnStatement(aRequire)
+        ])
+      )]
+    );
+    return map;
+  }
+
   return {
     post() {
       randomSpecifier = null;
@@ -69,39 +145,25 @@ module.exports = function(babel) {
       },
       JSXOpeningElement: {
         exit(path, state) {
+          var expressions = null;
+
           if (
             styleName === null ||
             randomSpecifier === null ||
-            !t.isStringLiteral(styleName.node.value)
+            !(t.isStringLiteral(styleName.node.value) ||
+            t.isJSXExpressionContainer(styleName.node.value))
           ) {
             return;
           }
 
-          var classNames = styleName.node.value.value
-            .split(" ")
-            .filter(v => v.trim() !== "");
-
-          var expressions = classNames
-            .map(c => {
-              var parts = c.split(".");
-              var hasParts = parts[0] !== undefined && parts[1] !== undefined;
-
-              if (specifier && !hasParts) {
-                return;
-              }
-
-              var obj = hasParts ? parts[0] : randomSpecifier.local.name;
-              var prop = hasParts ? parts[1] : c;
-              var hasHyphen = /\w+-\w+/.test(prop) === true;
-
-              var memberExpression = t.memberExpression(
-                t.identifier(obj),
-                hasHyphen ? t.stringLiteral(prop) : t.identifier(prop),
-                hasHyphen
-              );
-              return generateRequire(memberExpression);
-            })
-            .filter(e => e !== undefined);
+          if (t.isStringLiteral(styleName.node.value)) {
+            var classNames = styleName.node.value.value
+              .split(" ")
+              .filter(v => v.trim() !== "");
+            expressions = getStylesFromClassNames(classNames);
+          } else if (t.isJSXExpressionContainer(styleName.node.value)) {
+            expressions = [getStyleFromExpression(styleName.node.value.expression)];
+          }
 
           var hasStyleNameAndStyle =
             styleName &&
@@ -114,7 +176,7 @@ module.exports = function(babel) {
             );
             styleName.remove();
           } else {
-            if (classNames.length > 1) {
+            if (expressions.length > 1) {
               styleName.node.value = t.arrayExpression(expressions);
             } else {
               styleName.node.value = expressions[0];
