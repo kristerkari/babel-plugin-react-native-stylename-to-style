@@ -85,6 +85,68 @@ import Button from "./Button.css";
 </View>;
 ```
 
+### Expression
+
+```jsx
+import "./Button.css";
+const name = "wrapper";
+
+<View styleName={name}>
+  <Text>Foo</Text>
+</View>;
+```
+
+↓ ↓ ↓ ↓ ↓ ↓
+
+```jsx
+import Button from "./Button.css";
+const name = "wrapper";
+
+<View
+  style={(name || "")
+    .split(" ")
+    .filter(Boolean)
+    .map(function(name) {
+      Button[name];
+    })}
+>
+  <Text>Foo</Text>
+</View>;
+```
+
+### Expression with ternary
+
+```jsx
+import "./Button.css";
+
+const condition = true;
+const name = "wrapper";
+
+<View styleName={condition ? name : "bar"}>
+  <Text>Foo</Text>
+</View>;
+```
+
+↓ ↓ ↓ ↓ ↓ ↓
+
+```jsx
+import Button from "./Button.css";
+
+const condition = true;
+const name = "wrapper";
+
+<View
+  style={((condition ? name : "bar") || "")
+    .split(" ")
+    .filter(Boolean)
+    .map(function(name) {
+      Button[name];
+    })}
+>
+  <Text>Foo</Text>
+</View>;
+```
+
 ### with `styleName` and `style`:
 
 ```jsx
