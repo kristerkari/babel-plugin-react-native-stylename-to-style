@@ -3633,9 +3633,9 @@ react-native-css-media-query-processor@^0.14.0:
     deepmerge "^2.1.0"
     micro-memoize "^2.0.1"
 
-react-native-dynamic-style-processor@^0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/react-native-dynamic-style-processor/-/react-native-dynamic-style-processor-0.10.0.tgz#2e507d9e2b57a54c6c509de3af7d7c2da6397a6c"
+react-native-dynamic-style-processor@^0.10.1:
+  version "0.10.1"
+  resolved "https://registry.yarnpkg.com/react-native-dynamic-style-processor/-/react-native-dynamic-style-processor-0.10.1.tgz#167b637a7fdca90c161346d2c14a22f68a4a43fb"
   dependencies:
     css-viewport-units-transform "^0.10.1"
     micro-memoize "^2.0.3"
