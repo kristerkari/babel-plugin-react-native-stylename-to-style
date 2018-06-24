@@ -91,6 +91,6 @@
     }
   },
   "dependencies": {
-    "react-native-dynamic-style-processor": "^0.10.2"
+    "react-native-dynamic-style-processor": "^0.10.3"
   }
 }
