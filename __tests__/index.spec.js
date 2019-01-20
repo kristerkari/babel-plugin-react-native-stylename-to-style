@@ -205,11 +205,10 @@ pluginTester({
       `
     },
     {
-      title:
-        "Should support expression with single styleName output. Variable",
+      title: "Should support expression with single styleName output. Variable",
       code: `
         import './Button.css';
-        let x = 'wrapper';        
+        let x = 'wrapper';
         const Foo = () => <View styleName={x}><Text>Foo</Text></View>
       `
     },
@@ -218,7 +217,7 @@ pluginTester({
         "Should support expression with single styleName output. Conditional",
       code: `
         import './Button.css';
-        let x = 'wrapper';        
+        let x = 'wrapper';
         let condition = true;
         const Foo = () => <View styleName={condition ? x : 'bar'}><Text>Foo</Text></View>
       `
@@ -228,7 +227,7 @@ pluginTester({
         "Should support expression with single styleName output and named import. Variable",
       code: `
         import foo from './Button.css';
-        let x = 'wrapper';        
+        let x = 'wrapper';
         const Foo = () => <View styleName={x}><Text>Foo</Text></View>
       `
     },
@@ -237,7 +236,7 @@ pluginTester({
         "Should support expression with single styleName output and existing style. Variable",
       code: `
         import './Button.css';
-        let x = 'wrapper';        
+        let x = 'wrapper';
         const Foo = () => <View styleName={x} style={{ height: 1 }}><Text>Foo</Text></View>
       `
     }

@@ -114,7 +114,7 @@ var Foo = function Foo() {
 exports[`babel-plugin-react-native-stylename-to-style Should support expression with single styleName output and existing style. Variable: Should support expression with single styleName output and existing style. Variable 1`] = `
 "
 import './Button.css';
-let x = 'wrapper';        
+let x = 'wrapper';
 const Foo = () => <View styleName={x} style={{ height: 1 }}><Text>Foo</Text></View>
 
       ↓ ↓ ↓ ↓ ↓ ↓
@@ -147,7 +147,7 @@ var Foo = function Foo() {
 exports[`babel-plugin-react-native-stylename-to-style Should support expression with single styleName output and named import. Variable: Should support expression with single styleName output and named import. Variable 1`] = `
 "
 import foo from './Button.css';
-let x = 'wrapper';        
+let x = 'wrapper';
 const Foo = () => <View styleName={x}><Text>Foo</Text></View>
 
       ↓ ↓ ↓ ↓ ↓ ↓
@@ -180,7 +180,7 @@ var Foo = function Foo() {
 exports[`babel-plugin-react-native-stylename-to-style Should support expression with single styleName output. Conditional: Should support expression with single styleName output. Conditional 1`] = `
 "
 import './Button.css';
-let x = 'wrapper';        
+let x = 'wrapper';
 let condition = true;
 const Foo = () => <View styleName={condition ? x : 'bar'}><Text>Foo</Text></View>
 
@@ -215,7 +215,7 @@ var Foo = function Foo() {
 exports[`babel-plugin-react-native-stylename-to-style Should support expression with single styleName output. Variable: Should support expression with single styleName output. Variable 1`] = `
 "
 import './Button.css';
-let x = 'wrapper';        
+let x = 'wrapper';
 const Foo = () => <View styleName={x}><Text>Foo</Text></View>
 
       ↓ ↓ ↓ ↓ ↓ ↓
