@@ -11,18 +11,35 @@ module.exports = function(babel) {
   var randomSpecifier = null;
   var t = babel.types;
 
-  function generateRequire(expression) {
+  function isRequire(node) {
+    return (
+      node &&
+      node.declarations &&
+      node.declarations[0] &&
+      node.declarations[0].init &&
+      node.declarations[0].init.callee &&
+      node.declarations[0].init.callee.name === "require"
+    );
+  }
+
+  function generateRequire(name) {
     var require = t.callExpression(t.identifier("require"), [
       t.stringLiteral("react-native-dynamic-style-processor")
     ]);
+    var d = t.variableDeclarator(name, require);
+    return t.variableDeclaration("var", [d]);
+  }
+
+  function generateProcessCall(expression, state) {
+    state.hasTransformedClassName = true;
     expression.object = t.callExpression(
-      t.memberExpression(require, t.identifier("process")),
+      t.memberExpression(state.reqName, t.identifier("process")),
       [expression.object]
     );
     return expression;
   }
 
-  function getStylesFromClassNames(classNames) {
+  function getStylesFromClassNames(classNames, state) {
     return classNames
       .map(c => {
         var parts = c.split(".");
@@ -41,14 +58,13 @@ module.exports = function(babel) {
           hasHyphen ? t.stringLiteral(prop) : t.identifier(prop),
           hasHyphen
         );
-        return generateRequire(memberExpression);
+        return generateProcessCall(memberExpression, state);
       })
       .filter(e => e !== undefined);
   }
 
   // Support dynamic styleName
   // TODO: Add support for multiple named imports
-  // TODO: Move into a standalone require'able function instead of doing the inline invocation
   // Generates the following:
   //   styleName={x}
   //   | | |
@@ -67,33 +83,37 @@ module.exports = function(babel) {
   //       import foo from './Button.css'
   //       let x = 'wrapper' // NOT 'foo.wrapper'
   //       <View styleName={x} />
-  function getStyleFromExpression(expression) {
+  function getStyleFromExpression(expression, state) {
     var obj = (specifier || randomSpecifier).local.name;
-    var expressionResult = t.logicalExpression("||", expression, t.stringLiteral(""));
+    var expressionResult = t.logicalExpression(
+      "||",
+      expression,
+      t.stringLiteral("")
+    );
     var split = t.callExpression(
       t.memberExpression(expressionResult, t.identifier("split")),
       [t.stringLiteral(" ")]
     );
     var filter = t.callExpression(
       t.memberExpression(split, t.identifier("filter")),
-      [t.identifier('Boolean')]
+      [t.identifier("Boolean")]
     );
-    var nameIdentifier = t.identifier('name');
+    var nameIdentifier = t.identifier("name");
     var styleMemberExpression = t.memberExpression(
       t.identifier(obj),
       nameIdentifier,
       true
     );
-    var aRequire = generateRequire(styleMemberExpression);
+    var aRequire = generateProcessCall(styleMemberExpression, state);
     var map = t.callExpression(
       t.memberExpression(filter, t.identifier("map")),
-      [t.functionExpression(
-        null,
-        [nameIdentifier],
-        t.blockStatement([
-          t.returnStatement(aRequire)
-        ])
-      )]
+      [
+        t.functionExpression(
+          null,
+          [nameIdentifier],
+          t.blockStatement([t.returnStatement(aRequire)])
+        )
+      ]
     );
     return map;
   }
@@ -103,6 +123,29 @@ module.exports = function(babel) {
       randomSpecifier = null;
     },
     visitor: {
+      Program: {
+        enter(path, state) {
+          state.reqName = path.scope.generateUidIdentifier(
+            "react-native-dynamic-style-processor"
+          );
+        },
+        exit(path, state) {
+          if (!state.hasTransformedClassName) {
+            return;
+          }
+
+          const lastImportOrRequire = path
+            .get("body")
+            .filter(p => p.isImportDeclaration() || isRequire(p.node))
+            .pop();
+
+          if (lastImportOrRequire) {
+            lastImportOrRequire.insertAfter(generateRequire(state.reqName));
+          } else {
+            path.unshiftContainer("body", generateRequire(state.reqName));
+          }
+        }
+      },
       ImportDeclaration: function importResolver(path, state) {
         var extensions =
           state.opts != null &&
@@ -150,8 +193,10 @@ module.exports = function(babel) {
           if (
             styleName === null ||
             randomSpecifier === null ||
-            !(t.isStringLiteral(styleName.node.value) ||
-            t.isJSXExpressionContainer(styleName.node.value))
+            !(
+              t.isStringLiteral(styleName.node.value) ||
+              t.isJSXExpressionContainer(styleName.node.value)
+            )
           ) {
             return;
           }
@@ -160,9 +205,11 @@ module.exports = function(babel) {
             var classNames = styleName.node.value.value
               .split(" ")
               .filter(v => v.trim() !== "");
-            expressions = getStylesFromClassNames(classNames);
+            expressions = getStylesFromClassNames(classNames, state);
           } else if (t.isJSXExpressionContainer(styleName.node.value)) {
-            expressions = [getStyleFromExpression(styleName.node.value.expression)];
+            expressions = [
+              getStyleFromExpression(styleName.node.value.expression, state)
+            ];
           }
 
           var hasStyleNameAndStyle =
