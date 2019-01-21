@@ -113,6 +113,42 @@ var Foo = function Foo() {
 "
 `;
 
+exports[`babel-plugin-react-native-stylename-to-style Should not clash with existing requires with the same name (reactNativeDynamicStyleProcessor): Should not clash with existing requires with the same name (reactNativeDynamicStyleProcessor) 1`] = `
+"
+import './Button.css';
+var reactNativeDynamicStyleProcessor = require(\\"react-native-dynamic-style-processor\\");
+var _reactNativeDynamicStyleProcessor = require(\\"react-native-dynamic-style-processor\\");
+const Foo = () =>  <View styleName=\\"wrapper\\"><Text>Foo</Text></View>
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+\\"use strict\\";
+
+var _Button = require(\\"./Button.css\\");
+
+var _Button2 = _interopRequireDefault(_Button);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var reactNativeDynamicStyleProcessor = require(\\"react-native-dynamic-style-processor\\");
+var _reactNativeDynamicStyleProcessor = require(\\"react-native-dynamic-style-processor\\");
+
+var _reactNativeDynamicStyleProcessor2 = require(\\"react-native-dynamic-style-processor\\");
+
+var Foo = function Foo() {
+  return React.createElement(
+    View,
+    { style: _reactNativeDynamicStyleProcessor2.process(_Button2.default).wrapper },
+    React.createElement(
+      Text,
+      null,
+      \\"Foo\\"
+    )
+  );
+};
+"
+`;
+
 exports[`babel-plugin-react-native-stylename-to-style Should support expression with single styleName output and existing style. Variable: Should support expression with single styleName output and existing style. Variable 1`] = `
 "
 import './Button.css';

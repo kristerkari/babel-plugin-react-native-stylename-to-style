@@ -239,6 +239,16 @@ pluginTester({
         let x = 'wrapper';
         const Foo = () => <View styleName={x} style={{ height: 1 }}><Text>Foo</Text></View>
       `
+    },
+    {
+      title:
+        "Should not clash with existing requires with the same name (reactNativeDynamicStyleProcessor)",
+      code: `
+        import './Button.css';
+        var reactNativeDynamicStyleProcessor = require("react-native-dynamic-style-processor");
+        var _reactNativeDynamicStyleProcessor = require("react-native-dynamic-style-processor");
+        const Foo = () =>  <View styleName="wrapper"><Text>Foo</Text></View>
+      `
     }
   ]
 });
