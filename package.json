@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-react-native-stylename-to-style",
-  "version": "0.12.5",
+  "version": "0.13.0",
   "description": "Transform JSX styleName property to style property in react-native.",
   "keywords": [
     "babel",
