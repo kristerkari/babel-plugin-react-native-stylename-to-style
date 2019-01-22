@@ -141,8 +141,6 @@ module.exports = function(babel) {
 
           if (lastImportOrRequire) {
             lastImportOrRequire.insertAfter(generateRequire(state.reqName));
-          } else {
-            path.unshiftContainer("body", generateRequire(state.reqName));
           }
         }
       },
