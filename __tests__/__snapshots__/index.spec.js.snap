@@ -97,14 +97,52 @@ require('./Button.scss');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var _reactNativeDynamicStyleProcessor = require('react-native-dynamic-style-processor');
+
 var Foo = function Foo() {
   return React.createElement(
     View,
-    { style: require('react-native-dynamic-style-processor').process(_Button2.default).wrapper },
+    { style: _reactNativeDynamicStyleProcessor.process(_Button2.default).wrapper },
     React.createElement(
       Text,
       null,
       'Foo'
+    )
+  );
+};
+"
+`;
+
+exports[`babel-plugin-react-native-stylename-to-style Should not clash with existing requires with the same name (reactNativeDynamicStyleProcessor): Should not clash with existing requires with the same name (reactNativeDynamicStyleProcessor) 1`] = `
+"
+import './Button.css';
+var reactNativeDynamicStyleProcessor = require(\\"react-native-dynamic-style-processor\\");
+var _reactNativeDynamicStyleProcessor = require(\\"react-native-dynamic-style-processor\\");
+const Foo = () =>  <View styleName=\\"wrapper\\"><Text>Foo</Text></View>
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+\\"use strict\\";
+
+var _Button = require(\\"./Button.css\\");
+
+var _Button2 = _interopRequireDefault(_Button);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var reactNativeDynamicStyleProcessor = require(\\"react-native-dynamic-style-processor\\");
+var _reactNativeDynamicStyleProcessor = require(\\"react-native-dynamic-style-processor\\");
+
+var _reactNativeDynamicStyleProcessor2 = require(\\"react-native-dynamic-style-processor\\");
+
+var Foo = function Foo() {
+  return React.createElement(
+    View,
+    { style: _reactNativeDynamicStyleProcessor2.process(_Button2.default).wrapper },
+    React.createElement(
+      Text,
+      null,
+      \\"Foo\\"
     )
   );
 };
@@ -127,12 +165,14 @@ var _Button2 = _interopRequireDefault(_Button);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var _reactNativeDynamicStyleProcessor = require('react-native-dynamic-style-processor');
+
 var x = 'wrapper';
 var Foo = function Foo() {
   return React.createElement(
     View,
     { style: [(x || '').split(' ').filter(Boolean).map(function (name) {
-        return require('react-native-dynamic-style-processor').process(_Button2.default)[name];
+        return _reactNativeDynamicStyleProcessor.process(_Button2.default)[name];
       }), { height: 1 }] },
     React.createElement(
       Text,
@@ -160,12 +200,14 @@ var _Button2 = _interopRequireDefault(_Button);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var _reactNativeDynamicStyleProcessor = require('react-native-dynamic-style-processor');
+
 var x = 'wrapper';
 var Foo = function Foo() {
   return React.createElement(
     View,
     { style: (x || '').split(' ').filter(Boolean).map(function (name) {
-        return require('react-native-dynamic-style-processor').process(_Button2.default)[name];
+        return _reactNativeDynamicStyleProcessor.process(_Button2.default)[name];
       }) },
     React.createElement(
       Text,
@@ -194,13 +236,15 @@ var _Button2 = _interopRequireDefault(_Button);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var _reactNativeDynamicStyleProcessor = require('react-native-dynamic-style-processor');
+
 var x = 'wrapper';
 var condition = true;
 var Foo = function Foo() {
   return React.createElement(
     View,
     { style: ((condition ? x : 'bar') || '').split(' ').filter(Boolean).map(function (name) {
-        return require('react-native-dynamic-style-processor').process(_Button2.default)[name];
+        return _reactNativeDynamicStyleProcessor.process(_Button2.default)[name];
       }) },
     React.createElement(
       Text,
@@ -228,12 +272,14 @@ var _Button2 = _interopRequireDefault(_Button);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var _reactNativeDynamicStyleProcessor = require('react-native-dynamic-style-processor');
+
 var x = 'wrapper';
 var Foo = function Foo() {
   return React.createElement(
     View,
     { style: (x || '').split(' ').filter(Boolean).map(function (name) {
-        return require('react-native-dynamic-style-processor').process(_Button2.default)[name];
+        return _reactNativeDynamicStyleProcessor.process(_Button2.default)[name];
       }) },
     React.createElement(
       Text,
@@ -265,10 +311,12 @@ var _Grid2 = _interopRequireDefault(_Grid);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var _reactNativeDynamicStyleProcessor = require('react-native-dynamic-style-processor');
+
 var Foo = function Foo() {
   return React.createElement(
     View,
-    { style: [require('react-native-dynamic-style-processor').process(_Button2.default)['main-wrapper'], require('react-native-dynamic-style-processor').process(_Grid2.default)['left-column']] },
+    { style: [_reactNativeDynamicStyleProcessor.process(_Button2.default)['main-wrapper'], _reactNativeDynamicStyleProcessor.process(_Grid2.default)['left-column']] },
     React.createElement(
       Text,
       null,
@@ -299,10 +347,12 @@ var _Grid2 = _interopRequireDefault(_Grid);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var _reactNativeDynamicStyleProcessor = require('react-native-dynamic-style-processor');
+
 var Foo = function Foo() {
   return React.createElement(
     View,
-    { style: [require('react-native-dynamic-style-processor').process(_Button2.default).wrapper, require('react-native-dynamic-style-processor').process(_Grid2.default).column] },
+    { style: [_reactNativeDynamicStyleProcessor.process(_Button2.default).wrapper, _reactNativeDynamicStyleProcessor.process(_Grid2.default).column] },
     React.createElement(
       Text,
       null,
@@ -333,10 +383,12 @@ var _Grid2 = _interopRequireDefault(_Grid);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var _reactNativeDynamicStyleProcessor = require('react-native-dynamic-style-processor');
+
 var Foo = function Foo() {
   return React.createElement(
     View,
-    { style: [require('react-native-dynamic-style-processor').process(_Button2.default).wrapper, require('react-native-dynamic-style-processor').process(_Grid2.default).column, { height: 1 }] },
+    { style: [_reactNativeDynamicStyleProcessor.process(_Button2.default).wrapper, _reactNativeDynamicStyleProcessor.process(_Grid2.default).column, { height: 1 }] },
     React.createElement(
       Text,
       null,
@@ -372,10 +424,12 @@ var _Text2 = _interopRequireDefault(_Text);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var _reactNativeDynamicStyleProcessor = require('react-native-dynamic-style-processor');
+
 var Foo = function Foo() {
   return React.createElement(
     View,
-    { style: [require('react-native-dynamic-style-processor').process(_Text2.default).wrapper, require('react-native-dynamic-style-processor').process(_Button2.default).wrapper, require('react-native-dynamic-style-processor').process(_Grid2.default).wrapper] },
+    { style: [_reactNativeDynamicStyleProcessor.process(_Text2.default).wrapper, _reactNativeDynamicStyleProcessor.process(_Button2.default).wrapper, _reactNativeDynamicStyleProcessor.process(_Grid2.default).wrapper] },
     React.createElement(
       Text,
       null,
@@ -406,10 +460,12 @@ var _Grid2 = _interopRequireDefault(_Grid);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var _reactNativeDynamicStyleProcessor = require('react-native-dynamic-style-processor');
+
 var Foo = function Foo() {
   return React.createElement(
     View,
-    { style: [require('react-native-dynamic-style-processor').process(_Button2.default).wrapper, require('react-native-dynamic-style-processor').process(_Grid2.default).column] },
+    { style: [_reactNativeDynamicStyleProcessor.process(_Button2.default).wrapper, _reactNativeDynamicStyleProcessor.process(_Grid2.default).column] },
     React.createElement(
       Text,
       null,
@@ -435,10 +491,12 @@ var _Button2 = _interopRequireDefault(_Button);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var _reactNativeDynamicStyleProcessor = require(\\"react-native-dynamic-style-processor\\");
+
 var Foo = function Foo() {
   return React.createElement(
     View,
-    { style: require(\\"react-native-dynamic-style-processor\\").process(_Button2.default)[\\"main-wrapper\\"] },
+    { style: _reactNativeDynamicStyleProcessor.process(_Button2.default)[\\"main-wrapper\\"] },
     React.createElement(
       Text,
       null,
@@ -464,10 +522,12 @@ var _Button2 = _interopRequireDefault(_Button);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var _reactNativeDynamicStyleProcessor = require(\\"react-native-dynamic-style-processor\\");
+
 var Foo = function Foo() {
   return React.createElement(
     View,
-    { style: require(\\"react-native-dynamic-style-processor\\").process(_Button2.default).wrapper },
+    { style: _reactNativeDynamicStyleProcessor.process(_Button2.default).wrapper },
     React.createElement(
       Text,
       null,
@@ -493,10 +553,12 @@ var _Button2 = _interopRequireDefault(_Button);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var _reactNativeDynamicStyleProcessor = require(\\"react-native-dynamic-style-processor\\");
+
 var Foo = function Foo() {
   return React.createElement(
     View,
-    { style: [require(\\"react-native-dynamic-style-processor\\").process(_Button2.default)[\\"main-wrapper\\"], require(\\"react-native-dynamic-style-processor\\").process(_Button2.default)[\\"red-bg\\"]] },
+    { style: [_reactNativeDynamicStyleProcessor.process(_Button2.default)[\\"main-wrapper\\"], _reactNativeDynamicStyleProcessor.process(_Button2.default)[\\"red-bg\\"]] },
     React.createElement(
       Text,
       null,
@@ -522,10 +584,12 @@ var _Button2 = _interopRequireDefault(_Button);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var _reactNativeDynamicStyleProcessor = require(\\"react-native-dynamic-style-processor\\");
+
 var Foo = function Foo() {
   return React.createElement(
     View,
-    { style: [require(\\"react-native-dynamic-style-processor\\").process(_Button2.default).wrapper, require(\\"react-native-dynamic-style-processor\\").process(_Button2.default).red] },
+    { style: [_reactNativeDynamicStyleProcessor.process(_Button2.default).wrapper, _reactNativeDynamicStyleProcessor.process(_Button2.default).red] },
     React.createElement(
       Text,
       null,
@@ -602,10 +666,12 @@ var _Button2 = _interopRequireDefault(_Button);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var _reactNativeDynamicStyleProcessor = require('react-native-dynamic-style-processor');
+
 var Foo = function Foo() {
   return React.createElement(
     View,
-    { style: require('react-native-dynamic-style-processor').process(_Button2.default).wrapper },
+    { style: _reactNativeDynamicStyleProcessor.process(_Button2.default).wrapper },
     React.createElement(
       Text,
       null,
@@ -634,10 +700,12 @@ var _Button2 = _interopRequireDefault(_Button);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var _reactNativeDynamicStyleProcessor = require('react-native-dynamic-style-processor');
+
 var Foo = function Foo() {
   return React.createElement(
     View,
-    { style: require('react-native-dynamic-style-processor').process(_Button2.default).wrapper },
+    { style: _reactNativeDynamicStyleProcessor.process(_Button2.default).wrapper },
     React.createElement(
       Text,
       null,
@@ -663,10 +731,12 @@ var _Button2 = _interopRequireDefault(_Button);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var _reactNativeDynamicStyleProcessor = require(\\"react-native-dynamic-style-processor\\");
+
 var Foo = function Foo() {
   return React.createElement(
     View,
-    { style: [require(\\"react-native-dynamic-style-processor\\").process(_Button2.default).wrapper, require(\\"react-native-dynamic-style-processor\\").process(_Button2.default).red, { marginTop: 10 }] },
+    { style: [_reactNativeDynamicStyleProcessor.process(_Button2.default).wrapper, _reactNativeDynamicStyleProcessor.process(_Button2.default).red, { marginTop: 10 }] },
     React.createElement(
       Text,
       null,
@@ -692,10 +762,12 @@ var _Button2 = _interopRequireDefault(_Button);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var _reactNativeDynamicStyleProcessor = require(\\"react-native-dynamic-style-processor\\");
+
 var Foo = function Foo() {
   return React.createElement(
     View,
-    { style: [require(\\"react-native-dynamic-style-processor\\").process(_Button2.default).wrapper, require(\\"react-native-dynamic-style-processor\\").process(_Button2.default).red] },
+    { style: [_reactNativeDynamicStyleProcessor.process(_Button2.default).wrapper, _reactNativeDynamicStyleProcessor.process(_Button2.default).red] },
     React.createElement(
       Text,
       null,
@@ -721,10 +793,12 @@ var _Button2 = _interopRequireDefault(_Button);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var _reactNativeDynamicStyleProcessor = require(\\"react-native-dynamic-style-processor\\");
+
 var Foo = function Foo() {
   return React.createElement(
     View,
-    { style: [require(\\"react-native-dynamic-style-processor\\").process(_Button2.default).wrapper, require(\\"react-native-dynamic-style-processor\\").process(_Button2.default).red] },
+    { style: [_reactNativeDynamicStyleProcessor.process(_Button2.default).wrapper, _reactNativeDynamicStyleProcessor.process(_Button2.default).red] },
     React.createElement(
       Text,
       null,
@@ -750,10 +824,12 @@ var _Button2 = _interopRequireDefault(_Button);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var _reactNativeDynamicStyleProcessor = require(\\"react-native-dynamic-style-processor\\");
+
 var Foo = function Foo() {
   return React.createElement(
     View,
-    { style: [require(\\"react-native-dynamic-style-processor\\").process(_Button2.default)[\\"main-wrapper\\"], require(\\"react-native-dynamic-style-processor\\").process(_Button2.default)[\\"red-bg\\"], require(\\"react-native-dynamic-style-processor\\").process(_Button2.default)[\\"something-else\\"]] },
+    { style: [_reactNativeDynamicStyleProcessor.process(_Button2.default)[\\"main-wrapper\\"], _reactNativeDynamicStyleProcessor.process(_Button2.default)[\\"red-bg\\"], _reactNativeDynamicStyleProcessor.process(_Button2.default)[\\"something-else\\"]] },
     React.createElement(
       Text,
       null,
@@ -779,16 +855,18 @@ var _Button2 = _interopRequireDefault(_Button);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var _reactNativeDynamicStyleProcessor = require(\\"react-native-dynamic-style-processor\\");
+
 var Foo = function Foo() {
   return React.createElement(
     View,
     { style: { width: \\"100%\\" } },
     React.createElement(
       View,
-      { style: require(\\"react-native-dynamic-style-processor\\").process(_Button2.default).wrapper },
+      { style: _reactNativeDynamicStyleProcessor.process(_Button2.default).wrapper },
       React.createElement(
         Text,
-        { style: require(\\"react-native-dynamic-style-processor\\").process(_Button2.default).red },
+        { style: _reactNativeDynamicStyleProcessor.process(_Button2.default).red },
         \\"Foo\\"
       )
     )
@@ -812,10 +890,12 @@ var _Button2 = _interopRequireDefault(_Button);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var _reactNativeDynamicStyleProcessor = require(\\"react-native-dynamic-style-processor\\");
+
 var Foo = function Foo() {
   return React.createElement(
     View,
-    { style: [require(\\"react-native-dynamic-style-processor\\").process(_Button2.default).wrapper, { marginTop: 10 }] },
+    { style: [_reactNativeDynamicStyleProcessor.process(_Button2.default).wrapper, { marginTop: 10 }] },
     React.createElement(
       Text,
       null,
@@ -841,13 +921,15 @@ var _Button2 = _interopRequireDefault(_Button);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var _reactNativeDynamicStyleProcessor = require(\\"react-native-dynamic-style-processor\\");
+
 var Foo = function Foo() {
   return React.createElement(
     View,
     null,
     React.createElement(
       View,
-      { style: require(\\"react-native-dynamic-style-processor\\").process(_Button2.default).wrapper },
+      { style: _reactNativeDynamicStyleProcessor.process(_Button2.default).wrapper },
       React.createElement(
         Text,
         null,
@@ -856,7 +938,7 @@ var Foo = function Foo() {
     ),
     React.createElement(
       View,
-      { style: require(\\"react-native-dynamic-style-processor\\").process(_Button2.default).dark },
+      { style: _reactNativeDynamicStyleProcessor.process(_Button2.default).dark },
       React.createElement(
         Text,
         null,
@@ -883,10 +965,12 @@ var _Button2 = _interopRequireDefault(_Button);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var _reactNativeDynamicStyleProcessor = require(\\"react-native-dynamic-style-processor\\");
+
 var Foo = function Foo() {
   return React.createElement(
     View,
-    { style: require(\\"react-native-dynamic-style-processor\\").process(_Button2.default).wrapper },
+    { style: _reactNativeDynamicStyleProcessor.process(_Button2.default).wrapper },
     React.createElement(
       Text,
       null,
@@ -912,10 +996,12 @@ var _Button2 = _interopRequireDefault(_Button);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var _reactNativeDynamicStyleProcessor = require(\\"react-native-dynamic-style-processor\\");
+
 var Foo = function Foo() {
   return React.createElement(
     View,
-    { style: require(\\"react-native-dynamic-style-processor\\").process(_Button2.default)[\\"main-wrapper\\"] },
+    { style: _reactNativeDynamicStyleProcessor.process(_Button2.default)[\\"main-wrapper\\"] },
     React.createElement(
       Text,
       null,
